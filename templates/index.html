@@ -16,32 +16,33 @@
 		</p>
         {% endif %}
 	</div>
-	
-	<h2>Stats for {{patches[0]['name']}}</h2>
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Project</th>
-				<th>Created</th>
-				<th>Updated</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for patch in patches %}
-				{% if monthID in patch.created %}
-					<tr>
-						<td>{{loop.index}}</td>
-						<td><a href="//gerrit.wikimedia.org/r/#/c/{{patch._number}}/">{{patch.project}}</a></td>
-						<td>{{patch.created|datetimeformat}}</td>
-						<td>{{patch.updated|datetimeformat}}</td>
-						<td>{{patch.status}}</td>
-					</tr>
-				{% endif %}
-			{% endfor %}
-		</tbody>
-	</table>
+	{% if patches %}
+		<h2>Stats for {{patches[0]['name']}}</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Project</th>
+					<th>Created</th>
+					<th>Updated</th>
+					<th>Status</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for patch in patches %}
+					{% if monthID in patch.created %}
+						<tr>
+							<td>data</td>
+							<td><a href="#">data</a></td>
+							<td>data</td>
+							<td>data</td>
+							<td>data</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
 	<a href="{{backUrl}}" class="btn btn-primary float-left" title="Back to homepage">&laquo; Back</a>
 </div>
 {% endblock %}
