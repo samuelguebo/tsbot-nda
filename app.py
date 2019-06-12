@@ -5,6 +5,8 @@
 #
 # Contributors: Samuel Guebo
 # Licence: MIT
+# Credit: The code-base is a fork of the Toolforge flask WSGI boilerplate
+# as built in 2017 by Bryan Davis and other contributors
 
 import flask
 import mwoauth
