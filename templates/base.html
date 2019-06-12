@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>{{title}} | {{description}}</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
+	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
+	<link href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+	<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.js"></script>
+	<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<nav class="navbar navbar-dark bg-primary navbar-expand-lg">
+		<div class="container">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item">
+						<a class="nav-link" href="{{url_for('index', _external=True, _scheme=scheme)}}" id="baseurl">
+							<i class="fa fa-home"></i> Home <span class="sr-only">(current)</span>
+						</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="http://samuelguebo.co" target="_blank">
+							<i class="fa fa-users"></i> About me
+						</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<br>
+	<br>
+	<div class="container-fluid">
+		<div class="row content">
+			{% block content %}{% endblock %}
+		</div>
+		<br>
+		<br>
+
+	</div>
+	<footer class="container footer">
+		<hr class="featurette-divider">
+		<div class="container">
+			<br>
+			<p>License: MIT. All rights reserved © 2018 - <a href="$">Source code on Github </a></p>
+		</div>
+		<script src="{{url_for('static', filename='js/main.js')}}"></script>
+	</footer>
+</body>
+</html>

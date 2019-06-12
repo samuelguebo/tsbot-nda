@@ -1,15 +1,47 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
-        <title>My first Flask OAuth tool</title>
-    </head>
-    <body>
-        {% if username %}
-        <p>Hello {{ username }}!</p>
-        <p><a href="{{ url_for('logout') }}">logout</a></p>
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+
+	<div class="jumbotron">
+		<h1 class="display-4">{{title}}</h1>
+		<p class="lead"></p>
+		{% if username %}
+			<p class="lead">This is a minimalist utility used by the for the Wikimedia Foundation Trust & Safety team.</p>
+			<hr class="my-4">
+			<p>Hello {{ username }}!</p>
+			<p><a href="{{ url_for('logout') }}">logout</a></p>
         {% else %}
-        <p>{{ greeting }}</p>
-        <p><a href="{{ url_for('login') }}">login</a></p>
+		<p class="lead">
+			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log in</a>
+		</p>
         {% endif %}
-    </body>
-</html>
+	</div>
+	
+	<h2>Stats for {{patches[0]['name']}}</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Project</th>
+				<th>Created</th>
+				<th>Updated</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for patch in patches %}
+				{% if monthID in patch.created %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td><a href="//gerrit.wikimedia.org/r/#/c/{{patch._number}}/">{{patch.project}}</a></td>
+						<td>{{patch.created|datetimeformat}}</td>
+						<td>{{patch.updated|datetimeformat}}</td>
+						<td>{{patch.status}}</td>
+					</tr>
+				{% endif %}
+			{% endfor %}
+		</tbody>
+	</table>
+	<a href="{{backUrl}}" class="btn btn-primary float-left" title="Back to homepage">&laquo; Back</a>
+</div>
+{% endblock %}
