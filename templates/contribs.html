@@ -1,20 +1,38 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
+	<section id="contribs-form-wrapper">
+		<h1>User edits</h1>
+		<form>
+			<div class="form-group">
+			<label for="username">Username:</label>
+			<input type="text" class="form-control" 
+				id="username" name="username" value="Elfix">
+			</div>
+			<div class="form-group">
+			<label for="wiki">Wiki:</label>
+			<input type="text" class="form-control" 
+				id="wiki" name="wiki"  value="fr.wikipedia.org" 
+				placeholder="fr.wikipedia.org">
+			</div>
+			<button type="submit" class="btn btn-primary">Search</button>
+		</form>
+	</section>
 
-	<div class="jumbotron">
-		<h1 class="display-4">{{title}}</h1>
-		<p class="lead"></p>
-		<p class="lead">{{description}}</p>
-		{% if username %}
-			<hr class="my-4">
-			<p>Hello {{ username }}!</p>
-			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
-        {% else %}
-		<p class="lead">
-			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log via Meta-wiki</a>
-		</p>
-        {% endif %}
-	</div>
+	<h2>Results</h2>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th>ID</th>
+				<th>Project</th>
+				<th>Created</th>
+				<th>Updated</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+		</tbody>
+	</table>
 </div>
 {% endblock %}

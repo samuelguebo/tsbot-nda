@@ -9,9 +9,12 @@
 # as built in 2017 by Bryan Davis and other contributors
 
 import flask
+from flask import Response
+from flask import url_for
 import mwoauth
 import os
 import yaml
+import requests
 
 
 app = flask.Flask(__name__)
@@ -33,7 +36,29 @@ def index():
         'index.html', username=username, greeting=greeting,
         title=title, description=description)
 
+@app.route('/user-contribs')
+def user_contribs():
+    """User contributions analysis.
+    
+    Call the MediaWiki server to get perform requests.
+    Unauthorized users will be redirected to login page.
+    """
+    username = flask.session.get('username', None)
+    if username:
+        return flask.redirect(flask.url_for('index'))
+    
+    return flask.redirect(flask.url_for('contribs'))
 
+
+@app.route('/query/<query>/<wiki>')
+def wiki_query(query, wiki):
+    """Endpoint for handling wiki queries to avoid X-Origin issues. """
+    wikiurl = "https://" + wiki + "/w/api.php?action=query&" + query
+    jsoncode = requests.get(wikiurl).content
+    resp = Response(jsoncode, status=200,
+                    mimetype='application/json')
+    return resp
+    
 @app.route('/login')
 def login():
     """Initiate an OAuth login.
