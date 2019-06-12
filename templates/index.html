@@ -5,14 +5,14 @@
 	<div class="jumbotron">
 		<h1 class="display-4">{{title}}</h1>
 		<p class="lead"></p>
+		<p class="lead">{{description}}</p>
 		{% if username %}
-			<p class="lead">This is a minimalist utility used by the for the Wikimedia Foundation Trust & Safety team.</p>
 			<hr class="my-4">
 			<p>Hello {{ username }}!</p>
 			<p><a href="{{ url_for('logout') }}">logout</a></p>
         {% else %}
 		<p class="lead">
-			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log in</a>
+			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log via Meta-wiki</a>
 		</p>
         {% endif %}
 	</div>
@@ -43,6 +43,5 @@
 			</tbody>
 		</table>
 	{% endif %}
-	<a href="{{backUrl}}" class="btn btn-primary float-left" title="Back to homepage">&laquo; Back</a>
 </div>
 {% endblock %}
