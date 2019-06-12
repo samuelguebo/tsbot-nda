@@ -25,16 +25,20 @@ __dir__ = os.path.dirname(__file__)
 app.config.update(
     yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
-
-@app.route('/')
-def index():
+@app.context_processor
+def inject_user():
+    """Injecting variables in all templates"""
     greeting = app.config['GREETING']
     title = app.config['TITLE']
     description = app.config['DESCRIPTION']
+    return dict(greeting=greeting,
+                title=title, description=description)
+
+@app.route('/')
+def index():
     username = flask.session.get('username', None)
     return flask.render_template(
-        'index.html', username=username, greeting=greeting,
-        title=title, description=description)
+        'index.html', username=username)
 
 @app.route('/user-contribs')
 def user_contribs():
@@ -47,7 +51,7 @@ def user_contribs():
     if username:
         return flask.redirect(flask.url_for('index'))
     
-    return flask.redirect(flask.url_for('contribs'))
+    return flask.render_template('contribs.html')
 
 
 @app.route('/query/<query>/<wiki>')
