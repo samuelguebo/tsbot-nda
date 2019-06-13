@@ -116,7 +116,7 @@ def oauth_callback():
             access_token._fields, access_token))
         flask.session['username'] = identity['username']
         usergroup = checkUserGroup(identity['username'])
-        if usergroup !== "user":
+        if usergroup == "wmf-supportsafety":
             flask.session['usergroup'] = usergroup 
 
     return flask.redirect(flask.url_for('index'))
