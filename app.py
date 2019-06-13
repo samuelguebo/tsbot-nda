@@ -49,9 +49,9 @@ def user_contribs():
     """
     username = flask.session.get('username', None)
     if username:
-        return flask.redirect(flask.url_for('index'))
+        flask.render_template('contribs.html')
     
-    return flask.render_template('contribs.html')
+    return return flask.redirect(flask.url_for('index'))
 
 
 @app.route('/query/<query>/<wiki>')
