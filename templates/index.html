@@ -9,7 +9,7 @@
 		{% if username %}
 			<hr class="my-4">
 			<p>Hello {{ username }}!
-				{% if usergroup !== 'wmf-supportsafety' %}
+				{% if usergroup != 'wmf-supportsafety' %}
 				<br><strong>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></strong> 
 				{% endif %}
 			</p>
