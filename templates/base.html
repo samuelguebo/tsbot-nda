@@ -26,11 +26,13 @@
 							<i class="fa fa-home"></i> Home <span class="sr-only">(current)</span>
 						</a>
 					</li>
+					{% if username and usergroup %}
 					<li class="nav-item">
 						<a class="nav-link" href="{{url_for('user_contribs', _external=True, _scheme=scheme)}}">
 							<i class="fa fa-bar-chart"></i> User contributions
 						</a>
 					</li>
+					{% endif %}
 					<li class="nav-item">
 						<a class="nav-link" href="https://meta.wikimedia.org/wiki/Trust_and_Safety" target="_blank">
 							<i class="fa fa-users"></i> About T&S

@@ -32,8 +32,9 @@ def inject_user():
     greeting = app.config['GREETING']
     title = app.config['TITLE']
     description = app.config['DESCRIPTION']
-    return dict(greeting=greeting,
-                title=title, description=description)
+    usergroup = flask.session.get('usergroup', None)
+    return dict(greeting=greeting,title=title, 
+                description=description, usergroup=usergroup)
 
 @app.route('/')
 def index():
@@ -114,7 +115,7 @@ def oauth_callback():
         flask.session['access_token'] = dict(zip(
             access_token._fields, access_token))
         flask.session['username'] = identity['username']
-        flask.session['usergroup'] = getUserRights(identity['username'])
+        flask.session['usergroup'] = checkUserGroup(identity['username'])
 
     return flask.redirect(flask.url_for('index'))
 
@@ -125,13 +126,13 @@ def logout():
   flask.session.clear()
   return flask.redirect(flask.url_for('index'))
 
-def getUserRights(username):
+def checkUserGroup(username):
   """Check which rights a certain user possesses"""
   query = "list=users&ususers=" + username + "&usprop=groups&format=json"
   wikiurl = "https://meta.wikimedia.org/w/api.php?action=query&" + query
   
   groups = json.loads(requests.get(wikiurl).content)['query']['users']['groups']
   if "wmf-supportsafety" in groups:
-    return "wmf-supportsafety"
-  return "user"
+    return wmf-supportsafety
+  return None
   
