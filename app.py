@@ -11,6 +11,7 @@
 import flask
 from flask import Response
 from flask import url_for
+import json
 import mwoauth
 import os
 import yaml
@@ -48,10 +49,13 @@ def user_contribs():
     Unauthorized users will be redirected to login page.
     """
     username = flask.session.get('username', None)
-    if username:
+    usergroup = flask.session.get('usergroup', None)
+
+    # Make sure only logged-in T&S staff can use this
+    if username and usergroup and usergroup=="wmf-supportsafety":
         flask.render_template('contribs.html')
     
-    return return flask.redirect(flask.url_for('index'))
+    return flask.redirect(flask.url_for('index'))
 
 
 @app.route('/query/<query>/<wiki>')
@@ -102,7 +106,7 @@ def oauth_callback():
             flask.request.query_string)
 
         identity = mwoauth.identify(
-            app.config['OAUTH_MWURI'], consumer_token, access_token)    
+            app.config['OAUTH_MWURI'], consumer_token, access_token)   
     except Exception:
         app.logger.exception('OAuth authentication failed')
     
@@ -110,12 +114,24 @@ def oauth_callback():
         flask.session['access_token'] = dict(zip(
             access_token._fields, access_token))
         flask.session['username'] = identity['username']
+        flask.session['usergroup'] = getUserRights(identity['username'])
 
     return flask.redirect(flask.url_for('index'))
 
 
 @app.route('/logout')
 def logout():
-    """Log the user out by clearing their session."""
-    flask.session.clear()
-    return flask.redirect(flask.url_for('index'))
+  """Log the user out by clearing their session."""
+  flask.session.clear()
+  return flask.redirect(flask.url_for('index'))
+
+def getUserRights(username):
+  """Check which rights a certain user possesses"""
+  query = "list=users&ususers=" + username + "&usprop=groups&format=json"
+  wikiurl = "https://meta.wikimedia.org/w/api.php?action=query&" + query
+  
+  groups = json.loads(requests.get(wikiurl).content)['query']['users']['groups']
+  if "wmf-supportsafety" in groups:
+    return "wmf-supportsafety"
+  return "user"
+  
