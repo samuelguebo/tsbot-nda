@@ -9,11 +9,9 @@
 		{% if username %}
 			<hr class="my-4">
 			<p>Hello {{ username }}!</p>
-			{% if username %}
-			{% usergroup == 'wmf-supportsafety' %} 
+			{% if usergroup == 'wmf-supportsafety' %} 
 				<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
-			{% endif %}
-			{% usergroup == 'user' %} 
+			{% else %}
 				<h4>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></h4>
 			{% endif %}  
         {% else %}
