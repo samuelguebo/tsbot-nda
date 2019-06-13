@@ -8,12 +8,13 @@
 		<p class="lead">{{description}}</p>
 		{% if username %}
 			<hr class="my-4">
-			<p>Hello {{ username }}!</p>
-			{% if usergroup == 'wmf-supportsafety' %} 
-				<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
-			{% else %}
-				<h4>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></h4>
-			{% endif %}  
+			<p>Hello {{ username }}!
+				{% if usergroup !== 'wmf-supportsafety' %}
+				<br><strong>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></strong> 
+				{% endif %}
+			</p>
+			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
+  
         {% else %}
 		<p class="lead">
 			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log via Meta-wiki</a>
