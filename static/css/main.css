@@ -40,3 +40,12 @@ a.button {
   text-align: center;
 
 }
+
+#form-wrapper{
+  padding: 20px;
+} 
+
+.no-pad  {
+  padding-right: 0;
+  padding-left: 0;
+}
