@@ -6,10 +6,16 @@
 		<h1 class="display-4">{{title}}</h1>
 		<p class="lead"></p>
 		<p class="lead">{{description}}</p>
-		{% if username and usergroup %}
+		{% if username %}
 			<hr class="my-4">
 			<p>Hello {{ username }}!</p>
-			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
+			{% if username %}
+			{% usergroup == 'wmf-supportsafety' %} 
+				<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
+			{% endif %}
+			{% usergroup == 'user' %} 
+				<h4>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></h4>
+			{% endif %}  
         {% else %}
 		<p class="lead">
 			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Log via Meta-wiki</a>
