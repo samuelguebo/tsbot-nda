@@ -53,8 +53,8 @@ def user_contribs():
     usergroup = flask.session.get('usergroup', None)
 
     # Make sure only logged-in T&S staff can use this
-    if usergroup=="wmf-supportsafety":
-        flask.render_template('contribs.html')
+    if username and usergroup=="wmf-supportsafety":
+        return flask.render_template('contribs.html')
     
     return flask.redirect(flask.url_for('index'))
 
