@@ -8,9 +8,14 @@
 		<p class="lead">{{description}}</p>
 		{% if username %}
 			<hr class="my-4">
-			<p>Hello {{ username }}!
+			<p>{{greeting}} {{ username }}!
 				{% if usergroup != 'wmf-supportsafety' %}
-				<br><strong>Sorry, your account does not have <span class="label label-danger">T&S Credentials</span></strong> 
+				<br>
+				<h5>
+					<strong>Sorry, your account does not have 
+						<span class="label label-danger">T&S Credentials</span>
+					</strong> 
+				</h5>
 				{% endif %}
 			</p>
 			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
