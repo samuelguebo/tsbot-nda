@@ -131,8 +131,10 @@ def checkUserGroup(username):
   query = "list=users&ususers=" + username + "&usprop=groups&format=json"
   wikiurl = "https://meta.wikimedia.org/w/api.php?action=query&" + query
   
-  groups = json.loads(requests.get(wikiurl).content)['query']['users']['groups']
+  jsonResult = requests.get(wikiurl).content
+  groups = json.loads(jsonResult)['query']['users'][0]['groups']
+  
   if "wmf-supportsafety" in groups:
-    return wmf-supportsafety
+    return "wmf-supportsafety"
   return None
   
