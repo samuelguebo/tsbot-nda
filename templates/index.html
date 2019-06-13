@@ -16,11 +16,11 @@
 				</strong> 
 				{% endif %}
 			</p>
-			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
+			<p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.logout') }}">logout</a></p>
   
         {% else %}
 		<p class="lead">
-			<a class="btn btn-primary btn-lg" href="{{ url_for('login') }}" role="button">Login via Meta-wiki</a>
+			<a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login via Meta-wiki</a>
 		</p>
         {% endif %}
 	</div>

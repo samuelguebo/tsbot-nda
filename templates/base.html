@@ -7,7 +7,6 @@
 	<link rel="stylesheet" href="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css">
 	<link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}" />
 	<link href="//tools-static.wmflabs.org/cdnjs/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
 	<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/jquery/3.3.1/jquery.js"></script>
 	<script src="//tools-static.wmflabs.org/cdnjs/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
 
@@ -22,13 +21,13 @@
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item">
-						<a class="nav-link" href="{{url_for('index', _external=True, _scheme=scheme)}}" id="baseurl">
+						<a class="nav-link" href="{{url_for('home.index', _external=True, _scheme=scheme)}}" id="baseurl">
 							<i class="fa fa-home"></i> Home <span class="sr-only">(current)</span>
 						</a>
 					</li>
 					{% if username and usergroup %}
 					<li class="nav-item">
-						<a class="nav-link" href="{{url_for('user_contribs', _external=True, _scheme=scheme)}}">
+						<a class="nav-link" href="{{url_for('contribs.index', _external=True, _scheme=scheme)}}">
 							<i class="fa fa-bar-chart"></i> User contributions
 						</a>
 					</li>

@@ -25,13 +25,13 @@ jQuery( document ).ready( function( $ ) {
 
                         // Append row to Table
                         var html = '<tr>'
-                        html += '<td>' + line + '</td>'
-                        html += '<td>' + edit.timestamp + '</td>'
-                        html += '<td>' + edit.revid + '</td>'
-                        html += '<td>' + edit.user + '</td>'
-                        html += '<td>' + edit.title + '</td>'
-                        html += '<td>' + edit.comment + '</td>'
-                        html += '</tr>'
+                                html += '<td>' + line + '</td>'
+                                html += '<td>' + edit.timestamp + '</td>'
+                                html += '<td>' + edit.revid + '</td>'
+                                html += '<td>' + edit.user + '</td>'
+                                html += '<td>' + edit.title + '</td>'
+                                html += '<td>' + edit.comment + '</td>'
+                            html += '</tr>'
                         
                         $('#contribs-table tbody:last-child')
                         .append(html);
