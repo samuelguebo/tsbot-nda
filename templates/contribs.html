@@ -1,41 +1,48 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-	<section id="contribs-form-wrapper" class="col-md-6 no-pad">
-		<h1>User edits</h1>
-		<form>
-			<div class="form-group">
-			<label for="username">Username:</label>
-			<input type="text" class="form-control" 
-				id="username" name="username" value="Elfix">
-			</div>
-			<div class="form-group">
-			<label for="wiki">Wiki:</label>
-			<input type="text" class="form-control" 
-				id="wiki" name="wiki"  value="fr.wikipedia.org" 
-				placeholder="fr.wikipedia.org">
-			</div>
-			<button type="submit" class="btn btn-primary">Search</button>
-		</form>
-	</section>
+	<section id="contribs-form-wrapper">
+		<section  class="col-md-6 no-pad">
+			<h1>User edits</h1>
+			<form>
+				<div class="form-group">
+				<label for="username">Username:</label>
+				<input type="text" class="form-control" 
+					id="username" name="username" value="Elfix">
+				</div>
+				<div class="form-group">
+				<label for="wiki">Wiki:</label>
+				<input type="text" class="form-control" 
+					id="wiki" name="wiki"  value="fr.wikipedia.org" 
+					placeholder="fr.wikipedia.org">
+				</div>
+				<button id="btn-search" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i> Search</button>
+				<button id="btn-save" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+			</form>
+		</section>
 	
-	<hr class="my-4">
+		<hr class="my-4">
 
-	<h2>Results</h2>
-	<table id="contribs-table" class="table table-striped">
-		<thead>
-			<tr>
-				<th>ID</th>
-				<th>Timestamp</th>
-				<th>Revid</th>
-				<th>User</th>
-				<th>Title</th>
-				<th>Comment</th>
-			</tr>
-		</thead>
-		<tbody>
-			
-		</tbody>
-	</table>
+		<h2>Results
+			<a id="btn-reset" href="#" class="btn btn-small btn-danger float-right">
+				<i class="fa fa-remove"></i> Reset</a>
+		</h2> 
+
+		<table id="contribs-table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Timestamp</th>
+					<th>Revid</th>
+					<th>User</th>
+					<th>Title</th>
+					<th>Comment</th>
+				</tr>
+			</thead>
+			<tbody>
+				
+			</tbody>
+		</table>
+	</section>
 </div>
 {% endblock %}

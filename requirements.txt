@@ -2,3 +2,4 @@ flask
 pyyaml
 mwoauth
 requests
+tinydb

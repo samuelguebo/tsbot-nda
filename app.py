@@ -15,6 +15,7 @@
 # Licence: MIT
 # Credit: The code-base is a fork of the Toolforge flask WSGI boilerplate
 # as built in 2017 by Bryan Davis and other contributors
+
 import flask
 from flask import Flask
 from routes.auth import auth
