@@ -11,11 +11,9 @@
 			<p>{{greeting}} {{ username }}!
 				{% if usergroup != 'wmf-supportsafety' %}
 				<br>
-				<h5>
-					<strong>Sorry, your account does not have 
-						<span class="badge badge-danger">T&S Credentials</span>
-					</strong> 
-				</h5>
+				<strong>Sorry, your account does not have 
+					<span class="badge badge-danger">T&S Credentials</span>
+				</strong> 
 				{% endif %}
 			</p>
 			<p><a class="btn btn-primary btn-lg" href="{{ url_for('logout') }}">logout</a></p>
