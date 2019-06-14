@@ -16,7 +16,8 @@ app.config.update(
     yaml.safe_load(open(APP_ROOT + '/config.yaml')))
 
 
-def before_request():
+@app.before_request
+def data_reset():
     """Data rentention: reset the DB every two days"""
     try:
 
