@@ -1,10 +1,13 @@
+
+
 jQuery( document ).ready( function( $ ) {
     
     /* Form variables */
     var contribs_form = $('#contribs-form-wrapper form') 
-    var contribs_table = $('#contribs-form-wrapper #contribs-table') 
-    var contribs_collection = [];
-    var utils = new Utils()
+    var contribs_table = $('#contribs-form-wrapper #contribs-table')
+    var contribs_notification = $('#contribs-form-wrapper #notification')
+    var contribs_collection = [] 
+
 
     /* Search through MediaWiki API */
     $('#contribs-form-wrapper #btn-search').click(function(e){
@@ -16,6 +19,27 @@ jQuery( document ).ready( function( $ ) {
     $('#contribs-form-wrapper #btn-save').click(function(e){
         e.preventDefault();
         saveContribs(contribs_collection)
+        .then(function(response){
+            return response.json()
+        }).then(function(json){
+            var result_id = json.result_id
+            var result_url = new Utils().getBaseUrl() + "contribs/view/" + result_id
+            var html = "The search was saved with link " 
+                html += "<a href='" 
+                html += result_url + "'>"
+                html += result_url
+                html += "</a>"  
+            
+            $('#contribs-form-wrapper #btn-save').remove()
+            $('#contribs-form-wrapper #btn-search').remove()
+            
+            contribs_notification.html(html)
+            return 
+        }).catch(function(error){
+            var html = "An error occurred, the search was not saved."
+            contribs_notification.html(html)
+            return 
+        })
     })
     
     /* Clear the table rows */
@@ -44,11 +68,10 @@ jQuery( document ).ready( function( $ ) {
                         
                         // Add edit to the collection of contribs
                         var edit = contribs[i];
-                        contribs_collection.append(edit)
-                        var line = contribs_collection.length + 1
                         
                         if (typeof(edit) !== "undefined"){
-
+                            contribs_collection.push(edit)
+                            var line = contribs_collection.length
                             // Append row to Table
                             var html = '<tr>'
                                     html += '<td>' + line + '</td>'
@@ -61,8 +84,8 @@ jQuery( document ).ready( function( $ ) {
                             
                             $('#contribs-table tbody:last-child')
                             .append(html);
+                            
 
-                            console.log(edit)
                         }
                         
                     } 
@@ -78,7 +101,7 @@ jQuery( document ).ready( function( $ ) {
      * */
     function saveContribs(contribs){
         
-        var url = utils.baseUrl() + "contribs/save"
+        var url = new Utils().getBaseUrl() + "contribs/save"
         return fetch(url, {
                     method: 'POST',
                     body: JSON.stringify(contribs),
@@ -86,63 +109,62 @@ jQuery( document ).ready( function( $ ) {
                         'Content-Type': 'application/json'
                     }
                 })
-                .then(function(data){
-                    return data.json()
+                .then(function(response){
+                    return response
                 })
-                .then(function(json){
-                    return json
-                })
+    }
+
+
+
+    /**
+     * Performs a various range of interactions with
+     * the MediaWiki REST API
+     * @link: https://www.mediawiki.org/wiki/API:Help
+     */
+    class MediaWiki {
+        /**
+         * Constructor
+         * @param {String} wiki 
+         * @param {String} username 
+         */
+        constructor(wiki, username){
+            this.wiki = wiki;
+            this.username = username;
+        }
+        
+        /**
+         * Get user contributions via API:Contribs
+         * @link: https://www.mediawiki.org/wiki/API:Usercontribs
+         */
+        getWikiContribs() {
+            var limit = 50;
+            // Get the base url
+            var baseUrl = new Utils().getBaseUrl();
+            var query = "uclimit=" + limit +
+            "&format=json&list=usercontribs&ucuser=" + this.username;
+            var url = baseUrl + "query/" + query + "/" + this.wiki
+            
+            return fetch(url)
+                    .then(function(data){
+                        return data.json()
+                    })
+                    .then(function(json){
+                        return json.query.usercontribs
+                    })      
+        }
+    }
+
+    class Utils{
+        /**
+         * Get Homeurl
+         */
+        getBaseUrl() {
+            // use home url link as baseurl, remove protocol
+            var baseUrl = document.getElementById( 'baseurl' ).getAttribute( 'href' ).replace( /^https?:\/\//,'' );
+            // add actual protocol to fix Flask bug with protocol inconsistency
+            // baseUrl = location.protocol + '//' + baseUrl
+            return baseUrl;
+        }
     }
 
 } );
-
-/**
- * Performs a various range of interactions with
- * the MediaWiki REST API
- * @link: https://www.mediawiki.org/wiki/API:Help
- */
-class MediaWiki {
-    /**
-     * Constructor
-     * @param {String} wiki 
-     * @param {String} username 
-     */
-    constructor(wiki, username){
-        this.wiki = wiki;
-        this.username = username;
-    }
-    
-    /**
-     * Get user contributions via API:Contribs
-     * @link: https://www.mediawiki.org/wiki/API:Usercontribs
-     */
-    getWikiContribs() {
-        var limit = 50;
-        // Get the base url
-        var baseUrl = utils.getBaseUrl();
-        var query = "uclimit=" + limit +
-        "&format=json&list=usercontribs&ucuser=" + this.username;
-        url = baseUrl + "query/" + query + "/" + this.wiki
-        
-        return fetch(url)
-                .then(function(data){
-                    return data.json()
-                })
-                .then(function(json){
-                    return json.query.usercontribs
-                })      
-    }
-}
-
-class Utils{
-    /**
-     * Get Homeurl
-     */
-    getBaseUrl() {
-        // use home url link as baseurl, remove protocol
-        var baseUrl = document.getElementById( 'baseurl' ).getAttribute( 'href' ).replace( /^https?:\/\//,'' );
-        // add actual protocol to fix Flask bug with protocol inconsistency
-        //baseUrl = location.protocol + '//' + baseUrl
-        return baseUrl;
-    }
-}

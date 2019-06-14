@@ -2,24 +2,29 @@
 {% block content %}
 <div class="container">
 	<section id="contribs-form-wrapper">
-		<section  class="col-md-6 no-pad">
-			<h1>User edits</h1>
-			<form>
-				<div class="form-group">
-				<label for="username">Username:</label>
-				<input type="text" class="form-control" 
-					id="username" name="username" value="Elfix">
-				</div>
-				<div class="form-group">
-				<label for="wiki">Wiki:</label>
-				<input type="text" class="form-control" 
-					id="wiki" name="wiki"  value="fr.wikipedia.org" 
-					placeholder="fr.wikipedia.org">
-				</div>
-				<button id="btn-search" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i> Search</button>
-				<button id="btn-save" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
-			</form>
-		</section>
+		{% if not search %}
+			<section  class="col-md-8 no-pad">
+				<h1>User edits</h1>
+				<form>
+					<div class="form-group">
+					<label for="username">Username:</label>
+					<input type="text" class="form-control" 
+						id="username" name="username" value="Elfix">
+					</div>
+					<div class="form-group">
+					<label for="wiki">Wiki:</label>
+					<input type="text" class="form-control" 
+						id="wiki" name="wiki"  value="fr.wikipedia.org" 
+						placeholder="fr.wikipedia.org">
+					</div>
+					<button id="btn-search" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i> Search</button>
+					<button id="btn-save" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+					<strong id="notification"></strong>
+				</form>
+			</section>
+		{% if not search %}
+			<h1>Search</h1>
+		{% endif %}
 	
 		<hr class="my-4">
 
