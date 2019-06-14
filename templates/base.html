@@ -26,10 +26,19 @@
 						</a>
 					</li>
 					{% if username and usergroup %}
-					<li class="nav-item">
-						<a class="nav-link" href="{{url_for('contribs.index', _external=True, _scheme=scheme)}}">
-							<i class="fa fa-bar-chart"></i> User contributions
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Contributions
 						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="{{url_for('contribs.index', _external=True, _scheme=scheme)}}">
+								<i class="fa fa-search"></i> Search
+							</a>
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{url_for('contribs.list', _external=True, _scheme=scheme)}}">
+								<i class="fa fa-list"></i> View previous searches
+							</a>
+						</div>
 					</li>
 					{% endif %}
 					<li class="nav-item">

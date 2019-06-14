@@ -22,16 +22,11 @@ from routes.auth import auth
 from routes.home import home
 from routes.contribs import contribs
 import yaml, os
+from utils import app
 
-app = Flask(__name__)
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(contribs)
-
-# Load configuration from YAML file
-__dir__ = os.path.dirname(__file__)
-app.config.update(
-    yaml.safe_load(open(os.path.join(__dir__, 'config.yaml'))))
 
 @app.context_processor
 def inject_user():
@@ -39,6 +34,7 @@ def inject_user():
     greeting = app.config['GREETING']
     title = app.config['TITLE']
     description = app.config['DESCRIPTION']
+    username = flask.session.get('username', None)
     usergroup = flask.session.get('usergroup', None)
-    return dict(greeting=greeting,title=title, 
+    return dict(greeting=greeting,title=title,username=username,
                 description=description, usergroup=usergroup)

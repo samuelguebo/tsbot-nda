@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+	<section id="contribs-form-wrapper">
+
+		<h2>Results</h2> 
+
+		<table id="contribs-table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Performer</th>
+					<th>Timestamp</th>
+					<th>Results</th>
+					<th>Link</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if searches %}
+					{% for search in searches%}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td>{{search.username}}</td>
+						<td>{{search.timestamp}}</td>
+						<td>{{len(search.contribs)}}</td>
+						<td>{{contrib.doc_id}}
+							<a href="{{url_for('contribs.view', id=contrib.doc_id)}}" 
+								class="btn btn-primary float-left" 
+								title="Full details for {{contributor[0]['name']}}">
+								{{url_for('contribs.view', id=contrib.doc_id)}}
+							</a>
+						</td>
+						<td>{{contrib.comment}}</td>
+					</tr>
+					{% endfor %}
+				{% endif %}
+				
+			</tbody>
+		</table>
+	</section>
+</div>
+{% endblock %}

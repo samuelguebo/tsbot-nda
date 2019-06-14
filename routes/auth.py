@@ -8,8 +8,8 @@ import mwoauth
 import os
 import yaml
 import requests
+from utils import app
 auth = Blueprint('auth', __name__)
-app = Flask(__name__)
 
 @auth.route('/query/<query>/<wiki>')
 def wiki_query(query, wiki):
@@ -46,7 +46,7 @@ def oauth_callback():
     """OAuth handshake callback."""
     if 'request_token' not in flask.session:
         flask.flash(u'OAuth callback failed. Are cookies disabled?')
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('home.index'))
 
     consumer_token = mwoauth.ConsumerToken(
         app.config['CONSUMER_KEY'], app.config['CONSUMER_SECRET'])
@@ -71,14 +71,14 @@ def oauth_callback():
         if usergroup == "wmf-supportsafety":
             flask.session['usergroup'] = usergroup 
 
-    return flask.redirect(flask.url_for('index'))
+    return flask.redirect(flask.url_for('home.index'))
 
 
 @auth.route('/logout')
 def logout():
   """Log the user out by clearing their session."""
   flask.session.clear()
-  return flask.redirect(flask.url_for('index'))
+  return flask.redirect(flask.url_for('home.index'))
 
 def checkUserGroup(username):
   """Check which rights a certain user possesses"""

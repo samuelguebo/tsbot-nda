@@ -4,6 +4,7 @@ import requests, json
 from tinydb import TinyDB
 from tinydb import Query
 from datetime import datetime
+import utils
 
 contribs = Blueprint('contribs', __name__)
 
@@ -14,11 +15,9 @@ def index():
     Call the MediaWiki server to get perform requests.
     Unauthorized users will be redirected to login page.
     """
-    username = flask.session.get('username', None)
-    usergroup = flask.session.get('usergroup', None)
     
     # Make sure only logged-in T&S staff can use this
-    if username and usergroup=="wmf-supportsafety":
+    if utils.has_credentials():
         return flask.render_template('contribs.html')
     
     return flask.redirect(flask.url_for('home.index'))
@@ -61,6 +60,17 @@ def view(id):
     
     return flask.render_template("contribs.html", 
                                     search=search)
+
+
+@contribs.route('/contribs/list')
+def list():
+    """List all searches performed and saved previously"""
+	
+    db = get_db()
+    searches = db.all()
+    
+    return flask.render_template("list.html", 
+                                    searches=searches)
 
 
 def get_db():
