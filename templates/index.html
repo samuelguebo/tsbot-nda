@@ -11,13 +11,13 @@
 			<p>{{greeting}} {{ username }}!
 				{% if usergroup != 'wmf-supportsafety' %}
 				<br>
-				<strong>Sorry, your account does not have 
+				<strong>Sorry, your account does not have
 					<span class="badge badge-danger">T&S Credentials</span>
-				</strong> 
+				</strong>
 				{% endif %}
 			</p>
 			<p><a class="btn btn-primary btn-lg" href="{{ url_for('auth.logout') }}">logout</a></p>
-  
+
         {% else %}
 		<p class="lead">
 			<a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}" role="button">Login via Meta-wiki</a>

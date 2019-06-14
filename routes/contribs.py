@@ -3,7 +3,6 @@ import flask
 import json
 from tinydb import TinyDB
 from datetime import datetime
-import utils
 
 contribs = Blueprint('contribs', __name__)
 
@@ -16,11 +15,7 @@ def index():
     Unauthorized users will be redirected to login page.
     """
 
-    # Make sure only logged-in T&S staff can use this
-    if utils.has_credentials():
-        return flask.render_template('contribs.html')
-
-    return flask.redirect(flask.url_for('home.index'))
+    return flask.render_template('contribs.html')
 
 
 @contribs.route('/contribs/save', methods=["PUT"])
@@ -76,20 +71,17 @@ def delete(id):
     notification = {"status": "error",
                     "text": "Deletion failed, an error occured."
                     }
-    # Make sure only logged-in T&S staff can use this
-    if utils.has_credentials():
+    # Make sure item exists
+    db = get_db()
+    id = int(id)
+    search = db.get(doc_id=id)
 
-        # Make sure item exists
-        db = get_db()
-        id = int(id)
-        search = db.get(doc_id=id)
+    if(search):
+        db.remove(doc_ids=[id])
+        notification['status'] = "success"
+        notification['text'] = "The search was successfulled deleted."
 
-        if(search):
-            db.remove(doc_ids=[id])
-            notification['status'] = "success"
-            notification['text'] = "The search was successfulled deleted."
-
-        searches = db.all()
+    searches = db.all()
 
     return flask.render_template('list.html', searches=searches,
                                  notification=notification)
