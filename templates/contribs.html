@@ -22,11 +22,10 @@
 					<strong id="notification"></strong>
 				</form>
 			</section>
-		{% if not search %}
-			<h1>Search</h1>
+			<hr class="my-4">
 		{% endif %}
 	
-		<hr class="my-4">
+		
 
 		<h2>Results
 			<a id="btn-reset" href="#" class="btn btn-small btn-danger float-right">
@@ -45,6 +44,18 @@
 				</tr>
 			</thead>
 			<tbody>
+				{% if search %}
+					{% for contrib in search.contribs %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td>{{contrib.timestamp}}</td>
+						<td>{{contrib.revid}}</td>
+						<td>{{contrib.user}}</td>
+						<td>{{contrib.title}}</td>
+						<td>{{contrib.comment}}</td>
+					</tr>
+					{% endfor %}
+				{% endif %}
 				
 			</tbody>
 		</table>

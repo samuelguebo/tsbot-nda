@@ -53,6 +53,17 @@ def save():
     return Response({}, status=404,
                         mimetype='application/json')
 
+@contribs.route('/contribs/view/<id>')
+def view(id):
+    """Display a search that was previously saved"""
+	
+    db = get_db()
+    search = db.get(doc_id=int(id))
+    
+    return flask.render_template("contribs.html", 
+                                    search=search)
+
+
 def get_db():
 
     """DB object to be used independently."""
