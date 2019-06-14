@@ -22,15 +22,14 @@
 						<td>{{loop.index}}</td>
 						<td>{{search.username}}</td>
 						<td>{{search.timestamp}}</td>
-						<td>{{len(search.contribs)}}</td>
-						<td>{{contrib.doc_id}}
-							<a href="{{url_for('contribs.view', id=contrib.doc_id)}}" 
-								class="btn btn-primary float-left" 
-								title="Full details for {{contributor[0]['name']}}">
-								{{url_for('contribs.view', id=contrib.doc_id)}}
+						<td>{{search.contribs|length}}</td>
+						<td>
+							<a href="{{url_for('contribs.view', id=search.doc_id)}}" 
+								class="float-left" 
+								title="Result collected by {{search.username}}">
+								{{url_for('contribs.view', id=search.doc_id)}}
 							</a>
 						</td>
-						<td>{{contrib.comment}}</td>
 					</tr>
 					{% endfor %}
 				{% endif %}
