@@ -16,14 +16,13 @@ def index():
     """
     username = flask.session.get('username', None)
     usergroup = flask.session.get('usergroup', None)
-    """
+    
     # Make sure only logged-in T&S staff can use this
     if username and usergroup=="wmf-supportsafety":
         return flask.render_template('contribs.html')
     
     return flask.redirect(flask.url_for('home.index'))
-    """
-    return flask.render_template('contribs.html')
+    #return flask.render_template('contribs.html')
 
 
 @contribs.route('/contribs/save', methods=["POST"])
