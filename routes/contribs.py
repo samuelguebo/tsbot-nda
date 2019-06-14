@@ -1,7 +1,7 @@
 from flask import Blueprint, Response, request
 import flask
 import json
-from tinydb import TinyDB
+from utils import get_db
 from datetime import datetime
 
 contribs = Blueprint('contribs', __name__)
@@ -91,13 +91,3 @@ def delete(id):
 
     return Response({}, status=404,
                     mimetype='application/json')
-
-
-def get_db():
-
-    """DB object to be used independently."""
-
-    # setting the tinydb location
-    db = TinyDB('database/db.json')
-
-    return db
