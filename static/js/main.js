@@ -1,12 +1,12 @@
 
 
 jQuery( document ).ready( function( $ ) {
-    
+
     /* Form variables */
-    var contribs_form = $('#contribs-form-wrapper form') 
+    var contribs_form = $('#contribs-form-wrapper form')
     var contribs_table = $('#contribs-form-wrapper #contribs-table')
     var contribs_notification = $('#contribs-form-wrapper #notification')
-    var contribs_collection = [] 
+    var contribs_collection = []
 
 
     /* Search through MediaWiki API */
@@ -14,7 +14,7 @@ jQuery( document ).ready( function( $ ) {
         e.preventDefault();
         contribsHandler(contribs_form);
     })
-    
+
     /* Save rows to db */
     $('#contribs-form-wrapper #btn-save').click(function(e){
         e.preventDefault();
@@ -24,40 +24,40 @@ jQuery( document ).ready( function( $ ) {
         }).then(function(json){
             var result_id = json.result_id
             var result_url = new Utils().getBaseUrl() + "contribs/view/" + result_id
-            var html = "The search was saved with link " 
-                html += "<a href='" 
+            var html = "The search was saved with link "
+                html += "<a href='"
                 html += result_url + "'>"
                 html += result_url
-                html += "</a>"  
-            
+                html += "</a>"
+
             $('#contribs-form-wrapper #btn-save').remove()
             $('#contribs-form-wrapper #btn-search').remove()
-            
+
             contribs_notification.html(html)
-            return 
+            return
         }).catch(function(error){
             var html = "An error occurred, the search was not saved."
             contribs_notification.html(html)
-            return 
+            return
         })
     })
-    
+
     /* Clear the table rows */
     $('#contribs-form-wrapper #btn-reset').click(function(e){
         e.preventDefault();
         contribs_table.find('tbody').empty()
     })
 
-    
+
     /**
-     * Handle data related to CU Audit form 
+     * Handle data related to CU Audit form
      * @link: https://developers.google.com/apps-script/guides/html/communication
      */
     function contribsHandler(formObject) {
-        
+
         var username = $(formObject).find("input[name=username]").val();
         var wiki = $(formObject).find("input[name=wiki]").val();
-        
+
         if(""!== wiki && ""!= username){
             var mediawiki = new MediaWiki(wiki, username)
             mediawiki
@@ -65,10 +65,10 @@ jQuery( document ).ready( function( $ ) {
                 .then(function(contribs){
 
                     for (var i = 0; i <= contribs.length; i++) {
-                        
+
                         // Add edit to the collection of contribs
                         var edit = contribs[i];
-                        
+
                         if (typeof(edit) !== "undefined"){
                             contribs_collection.push(edit)
                             var line = contribs_collection.length
@@ -81,29 +81,29 @@ jQuery( document ).ready( function( $ ) {
                                     html += '<td>' + edit.title + '</td>'
                                     html += '<td>' + edit.comment + '</td>'
                                 html += '</tr>'
-                            
+
                             $('#contribs-table tbody:last-child')
                             .append(html);
-                            
+
 
                         }
-                        
-                    } 
-                    
+
+                    }
+
                 })
         }
-        
+
     }
 
     /**
      * Post result to endpoint. Once its hits the route
-     * It will be saved in the DB 
+     * It will be saved in the DB
      * */
     function saveContribs(contribs){
-        
+
         var url = new Utils().getBaseUrl() + "contribs/save"
         return fetch(url, {
-                    method: 'POST',
+                    method: 'PUT',
                     body: JSON.stringify(contribs),
                     headers: {
                         'Content-Type': 'application/json'
@@ -124,14 +124,14 @@ jQuery( document ).ready( function( $ ) {
     class MediaWiki {
         /**
          * Constructor
-         * @param {String} wiki 
-         * @param {String} username 
+         * @param {String} wiki
+         * @param {String} username
          */
         constructor(wiki, username){
             this.wiki = wiki;
             this.username = username;
         }
-        
+
         /**
          * Get user contributions via API:Contribs
          * @link: https://www.mediawiki.org/wiki/API:Usercontribs
@@ -143,14 +143,14 @@ jQuery( document ).ready( function( $ ) {
             var query = "uclimit=" + limit +
             "&format=json&list=usercontribs&ucuser=" + this.username;
             var url = baseUrl + "query/" + query + "/" + this.wiki
-            
+
             return fetch(url)
                     .then(function(data){
                         return data.json()
                     })
                     .then(function(json){
                         return json.query.usercontribs
-                    })      
+                    })
         }
     }
 

@@ -2,8 +2,18 @@
 {% block content %}
 <div class="container">
 	<section id="contribs-form-wrapper">
-
-		<h2>Results</h2> 
+		{% if notification %}
+			{% if notification.status == "success" %}
+				<div class="alert alert-success" role="alert">
+					{{ notification.text }}
+				</div>
+			{% else %}
+				<div class="alert alert-warning" role="alert">
+					{{ notification.text }}
+				</div>
+			{% endif %}
+		{% endif %}
+		<h2>Results</h2>
 
 		<table id="contribs-table" class="table table-striped">
 			<thead>
@@ -13,6 +23,7 @@
 					<th>Timestamp</th>
 					<th>Results</th>
 					<th>Link</th>
+					<th>Manage</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -24,16 +35,23 @@
 						<td>{{search.timestamp}}</td>
 						<td>{{search.contribs|length}}</td>
 						<td>
-							<a href="{{url_for('contribs.view', id=search.doc_id)}}" 
-								class="float-left" 
+							<a href="{{url_for('contribs.view', id=search.doc_id)}}"
+								class="float-left"
 								title="Result collected by {{search.username}}">
 								{{url_for('contribs.view', id=search.doc_id)}}
+							</a>
+						</td>
+						<td>
+							<a href="{{url_for('contribs.delete', id=search.doc_id)}}"
+								class="btn btn-danger"
+								title="Delete this result">
+								<i class="fa fa-remove"></i> Delete
 							</a>
 						</td>
 					</tr>
 					{% endfor %}
 				{% endif %}
-				
+
 			</tbody>
 		</table>
 	</section>
