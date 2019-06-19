@@ -18,6 +18,13 @@ def index():
     return flask.render_template('contribs.html')
 
 
+@contribs.route('/contribs/reverts')
+def reverts():
+    """Find reverted edits"""
+    operation = "revert"
+    return flask.render_template('contribs.html', operation=operation)
+
+
 @contribs.route('/contribs/save', methods=["PUT"])
 def save():
     """Save the user contributions collected into database"""

@@ -35,6 +35,10 @@
 								<i class="fa fa-search"></i> Search
 							</a>
 							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{url_for('contribs.reverts', _external=True, _scheme=scheme)}}">
+								<i class="fa fa-remove"></i> Reverted edits
+							</a>
+							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{url_for('contribs.list', _external=True, _scheme=scheme)}}">
 								<i class="fa fa-list"></i> Previous searches
 							</a>
