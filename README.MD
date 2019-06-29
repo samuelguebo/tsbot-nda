@@ -1,5 +1,5 @@
 ## TS Robot
-This project is based on the Toolforge Flask + OAuth WSGI tutorial
+A technical utility built by the Wikimedia Foundation Trust & Safety team. This project is based on the Toolforge Flask + OAuth WSGI tutorial
 
 ## Sync folder
 Run the following command to make sure `nodemon` pushes every changes
