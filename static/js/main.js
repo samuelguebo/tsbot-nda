@@ -211,10 +211,10 @@ jQuery( document ).ready( function( $ ) {
           * @link: https://www.mediawiki.org/wiki/API:Usercontribs
           */
          isEditReverted(edit) {
-           var self = this;
+
            // Check wether revision's summary contains
                return
-                   self.getNextRevision(edit)
+                   this.getNextRevision(edit)
                    .then(function(revision){
                      console.log(revision)
                      if(revision.tocomment.includes(edit.user)){
@@ -242,6 +242,7 @@ jQuery( document ).ready( function( $ ) {
                    })
                    .then(function(json){
                      var result = json.compare
+                        console.log(result)
                        return result
 
                    })
