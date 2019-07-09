@@ -73,7 +73,7 @@ def index(title=None):
                 else:
                     user_groups = get_user_groups(old_users)
 
-                header_template = re.search('\{\{\:.*?\}\}',
+                header_template = re.search('\\{\\{\\:.*?\\}\\}',
                                             old_content).group(0)
                 content = get_wikicode(header_template, user_groups)
                 content += "\n"
@@ -106,8 +106,8 @@ def get_group(username):
                 "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
                 "Y", "Z"]
 
-    regexcharacters = '[\!\@\#\$\%\^\&\*\(\)\,\.\?\"\:\{\}\|'
-    regexcharacters += '\<\>\-]'
+    regexcharacters = '[\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\,\\.\\?\\"\\:\\{\\}\\|'
+    regexcharacters += '\\<\\>\\-]'
 
     chars = list(username)
     first_char = ""
@@ -118,7 +118,7 @@ def get_group(username):
         print(username+" could not be split")
 
     # check whether it's a Number
-    if re.search("\d", first_char) is not None:
+    if re.search("\\d", first_char) is not None:
         group = "Numbers"
 
     # check whether it's a Symbol
@@ -223,14 +223,14 @@ def get_users(text):
 
     users = []
 
-    users_with_diff = re.findall("\{\{\/user.*", text)
-    users_without_diff = re.findall("\* \[\[User:.*\]\]", text)
+    users_with_diff = re.findall("\\{\\{\\/user.*", text)
+    users_without_diff = re.findall("\\* \\[\\[User:.*\\]\\]", text)
 
     for user_line in users_with_diff:
-        description = re.sub("\{\{.*\}", "", user_line)  # only description
+        description = re.sub("\\{\\{.*\\}", "", user_line)  # only description
         user_line = user_line.replace(description, "")  # all but description
-        diff = re.search("\b/|\d+", user_line).group(0)  # diff number
-        username = re.sub("\{\{.*\|", "",
+        diff = re.search("\\b/|\\d+", user_line).group(0)  # diff number
+        username = re.sub("\\{\\{.*\\|", "",
                           user_line).replace("}", "")  # username
         group = get_group(username)
 
@@ -248,7 +248,7 @@ def get_users(text):
         users.append(row)
 
     for user_line in users_without_diff:
-        username = re.search("User\:.*?\]", user_line)
+        username = re.search("User\\:.*?\\]", user_line)
         if username is not None:
             username = username[0].replace("]", "").replace("User:", "")
 
