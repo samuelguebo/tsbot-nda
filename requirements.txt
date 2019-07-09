@@ -3,3 +3,8 @@ pyyaml
 mwoauth
 requests
 tinydb
+Jinja2
+pytest-cov
+python-dateutil
+urllib3
+mw-api-client

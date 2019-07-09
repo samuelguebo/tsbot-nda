@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+	<div class="form-group">
+		<h1 class="clearfix">{{title}}</h1>
+	</div>
+
+	<div class="row">
+
+		<form "{{ url_for('index') }}" method="post" class="col-md-6">
+
+				<div class="form-group">
+						<label for="previous_content">Previous content</label>
+						<textarea name="previous_content" class="form-control" rows="5" cols="80">{{remote_wiki_text}}</textarea>
+				</div>
+
+				<div class="form-group">
+						<label for="new_users">New users</label>
+						<textarea name="new_users" class="form-control" rows="5" cols="80"></textarea>
+				</div>
+
+				<div class="form-group">
+						<label for="diff">Diff</label>
+						<input name="diff" type="text" class="form-control" rows="3"
+						{% if diffs %}
+							value="{{diffs[0].revid}}"
+						{% endif %}
+						>
+				</div>
+
+				<button type="submit" class="btn btn-primary mb-2">Generate</button>
+		</form>
+
+		<div class="form-group col-md-6">
+			<label for="new_users">Output</label>
+			<textarea class="form-control" rows="7" cols="80">{{content}}</textarea>
+
+			<label for="diff">Summary</label>
+			<input name="diff" type="text" class="form-control" rows="3" value="{{summary}}"><br>
+
+			<!-- Diffs -->
+			{% if diffs %}
+			<div class="list-group">
+			  <a href="#" class="list-group-item active">Latest diff</a>
+				{% for diff in diffs %}
+					<p class="list-group-item">
+						<a href="https://meta.wikimedia.org/wiki/Special:Diff/{{diff.revid}}">{{diff.revid}}</a> by {{diff.user}} // {{diff.comment}}
+					</p>
+				{% endfor %}
+			</div>
+			{% endif %}
+			<br>
+			<a class="btn btn-danger mb-2" href="https://meta.wikimedia.org/wiki/{{namespace}}?&action=edit"><i class="fa fa-edit"></i> Edit page</a>
+		</div>
+
+
+
+	</div>
+</div>
+{% endblock %}
