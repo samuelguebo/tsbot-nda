@@ -15,7 +15,7 @@ import re
 import requests
 from flask import Blueprint
 
-nda = Blueprint('home', __name__)
+nda = Blueprint('nda', __name__)
 
 
 @nda.route('/nda',  methods=['GET', 'POST'])
