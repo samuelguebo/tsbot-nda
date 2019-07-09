@@ -34,10 +34,17 @@
 							<a class="dropdown-item" href="{{url_for('contribs.index', _external=True, _scheme=scheme)}}">
 								<i class="fa fa-search"></i> Search
 							</a>
+							<!-- NDA Noticeboard -->
+							<div class="dropdown-divider"></div>
+							<a class="dropdown-item" href="{{url_for('nda.index', _external=True, _scheme=scheme)}}">
+								<i class="fa fa-shield"></i> NDA noticeboard
+							</a>
+							<!-- Reverted edits -->
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{url_for('contribs.reverts', _external=True, _scheme=scheme)}}">
 								<i class="fa fa-remove"></i> Reverted edits
 							</a>
+							<!-- Previous searches edits -->
 							<div class="dropdown-divider"></div>
 							<a class="dropdown-item" href="{{url_for('contribs.list', _external=True, _scheme=scheme)}}">
 								<i class="fa fa-list"></i> Previous searches

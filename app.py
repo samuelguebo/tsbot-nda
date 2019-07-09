@@ -17,16 +17,18 @@
 # as built in 2017 by Bryan Davis and other contributors
 
 import flask
-from flask import Flask
 from routes.auth import auth
 from routes.home import home
 from routes.contribs import contribs
-import yaml, os
+from routes.nda import nda
+
 from utils import app
 
 app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(contribs)
+app.register_blueprint(nda)
+
 
 @app.context_processor
 def inject_user():
@@ -36,5 +38,5 @@ def inject_user():
     description = app.config['DESCRIPTION']
     username = flask.session.get('username', None)
     usergroup = flask.session.get('usergroup', None)
-    return dict(greeting=greeting,title=title,username=username,
+    return dict(greeting=greeting, title=title, username=username,
                 description=description, usergroup=usergroup)
