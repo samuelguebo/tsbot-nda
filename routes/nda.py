@@ -74,7 +74,7 @@ def index(title=None):
                     user_groups = get_user_groups(old_users)
 
                 header_template = re.search('\\{\\{\\:.*?\\}\\}',
-                                            old_content)[0]
+                                            old_content).group(0)
                 content = get_wikicode(header_template, user_groups)
                 content += "\n"
                 content += summary
@@ -172,7 +172,7 @@ def get_noticeboard_array(text):
     text -- a raw text in wikicode format
     """
 
-    header_template = re.search("\{\{\:.*?\}\}", text)[0]
+    header_template = re.search("\{\{\:.*?\}\}", text).group(0)
     users = get_users(text)
     user_groups = get_user_groups(users)
     content = get_wikicode(header_template, user_groups)
