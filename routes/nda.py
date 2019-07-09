@@ -74,7 +74,7 @@ def index(title=None):
                     user_groups = get_user_groups(old_users)
 
                 header_template = re.search('\\{\\{\\:.*?\\}\\}',
-                                            old_content).group(0)
+                                            old_content).group()
                 content = get_wikicode(header_template, user_groups)
                 content += "\n"
                 content += summary
@@ -229,7 +229,7 @@ def get_users(text):
     for user_line in users_with_diff:
         description = re.sub("\\{\\{.*\\}", "", user_line)  # only description
         user_line = user_line.replace(description, "")  # all but description
-        diff = re.search("\\b/|\\d+", user_line).group(0)  # diff number
+        diff = re.search("\\b/|\\d+", user_line).group()  # diff number
         username = re.sub("\\{\\{.*\\|", "",
                           user_line).replace("}", "")  # username
         group = get_group(username)
