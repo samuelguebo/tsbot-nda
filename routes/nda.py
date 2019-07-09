@@ -331,8 +331,8 @@ def get_wikicode_item(header, users):
         if(user['status'] == 'new'):
             wikicode += "* [[User:" + user['username'] + "]]"
         else:
-            wikicode += "{{/user|"
-            + user['diff'] + "|" + user['username'] + "}}"
+            wikicode += "{{/user|" + user['diff'] + "|"
+            wikicode += user['username'] + "}}"
         if user['description']:
             wikicode += user['description']
         wikicode += "\n"
