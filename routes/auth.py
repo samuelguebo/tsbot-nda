@@ -8,6 +8,7 @@ import requests
 from utils import app
 auth = Blueprint('auth', __name__)
 
+
 @auth.route('/query/<query>/<wiki>')
 def wiki_query(query, wiki):
     """Endpoint for handling wiki queries to avoid X-Origin issues. """
@@ -16,6 +17,7 @@ def wiki_query(query, wiki):
     resp = Response(jsoncode, status=200,
                     mimetype='application/json')
     return resp
+
 
 @auth.route('/login')
 def login():
@@ -73,21 +75,22 @@ def oauth_callback():
 
 @auth.route('/logout')
 def logout():
-  """Log the user out by clearing their session."""
-  flask.session.clear()
-  return flask.redirect(flask.url_for('home.index'))
+    """Log the user out by clearing their session."""
+    flask.session.clear()
+    return flask.redirect(flask.url_for('home.index'))
+
 
 def checkUserGroup(username):
-  """Check which rights a certain user possesses"""
-  query = "list=users&ususers=" + username + "&usprop=groups&format=json"
-  wikiurl = "https://meta.wikimedia.org/w/api.php?action=query&" + query
+    """Check which rights a certain user possesses"""
+    query = "list=users&ususers=" + username + "&usprop=groups&format=json"
+    wikiurl = "https://meta.wikimedia.org/w/api.php?action=query&" + query
 
-  jsonResult = requests.get(wikiurl).text
-  groups = json.loads(jsonResult)['query']['users'][0]['groups']
+    jsonResult = requests.get(wikiurl).text
+    groups = json.loads(jsonResult)['query']['users'][0]['groups']
 
-  if "wmf-supportsafety" in groups:
-    return "wmf-supportsafety"
-  return "user"
+    if "wmf-supportsafety" in groups:
+        return "wmf-supportsafety"
+    return "user"
 
 
 @app.before_request
