@@ -229,7 +229,7 @@ def get_users(text):
     for user_line in users_with_diff:
         description = re.sub("\\{\\{.*\\}", "", user_line)  # only description
         user_line = user_line.replace(description, "")  # all but description
-        diff = re.search("\\b/|\\d+", user_line)[0]  # diff number
+        diff = re.search("\\b/|\\d+", user_line).group(0)  # diff number
         username = re.sub("\\{\\{.*\\|", "",
                           user_line).replace("}", "")  # username
         group = get_group(username)
