@@ -214,9 +214,12 @@ def get_user_groups(users):
     ordered_user_groups = {}
     keys = sorted(user_groups.keys())
 
+    print(keys)
+
     for key in keys:
             ordered_user_groups[key] = user_groups[key]
 
+    print(json.dumps(ordered_user_groups))
     return ordered_user_groups
 
 
