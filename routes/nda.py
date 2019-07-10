@@ -210,18 +210,7 @@ def get_user_groups(users):
         user_groups[k] = sorted(user_groups[k],
                                 key=lambda x: x['username'])
 
-    # odering user_groups
-    ordered_user_groups = {}
-    keys = sorted(user_groups.keys())
-
-    print(keys)
-
-    for key in keys:
-            ordered_user_groups[key] = user_groups[key]
-
-    print(ordered_user_groups.keys())
-    # print(json.dumps(ordered_user_groups))
-    return ordered_user_groups
+    return user_groups
 
 
 def get_users(text):
@@ -301,7 +290,7 @@ def get_wikicode(header_template, user_groups):
             wikicode += get_wikicode_item(x, user_groups[x])
 
     # A-Z
-    for x in user_groups:
+    for x in sorted(user_groups.keys()):
         if x not in ["Numbers", "Symbols", "NonLatin"]:
             wikicode += get_wikicode_item(x, user_groups[x])
 
