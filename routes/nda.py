@@ -202,8 +202,6 @@ def get_user_groups(users):
     # group users by keyword, requires previous sorting with same key
     users = sorted(users, key=lambda x: x['group'])
 
-    # priting sorted users by groups
-    print(json.dumps(users))
     for k, g in itertools.groupby(users, key=lambda x: x['group']):
 
         user_groups[k] = list(g)
@@ -212,6 +210,8 @@ def get_user_groups(users):
         user_groups[k] = sorted(user_groups[k],
                                 key=lambda x: x['username'])
 
+    # priting sorted users by groups
+    print(json.dumps(user_groups.keys()))
     return user_groups
 
 
