@@ -190,6 +190,7 @@ def get_user_groups(users):
     """
 
     # sort users so that the gouping can work
+
     usernames = sorted(users, key=lambda x: x['username'])
     users = []  # empty it
     user_groups = {}
@@ -209,6 +210,17 @@ def get_user_groups(users):
         user_groups[k] = sorted(user_groups[k],
                                 key=lambda x: x['username'])
 
+    print(json.dumps(user_groups))
+    user_groups = sorted(user_groups.keys())
+    print(json.dumps(user_groups))
+    '''
+
+    order user_groups by keyword
+    #print("user_groups after custom sorting: ")
+    #user_groups = sorted(user_groups, key=lambda x: list(x)[0])
+    print(json.dumps(user_groups))
+
+    '''
     return user_groups
 
 
