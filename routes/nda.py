@@ -74,7 +74,7 @@ def index(title=None):
                     user_groups = get_user_groups(old_users)
 
                 header_template = re.search('\\{\\{\\:.*?\\}\\}',
-                                            old_content).group()
+                                            old_content).group(0)
                 content = get_wikicode(header_template, user_groups)
                 content += "\n"
                 content += summary
@@ -190,7 +190,6 @@ def get_user_groups(users):
     """
 
     # sort users so that the gouping can work
-
     usernames = sorted(users, key=lambda x: x['username'])
     users = []  # empty it
     user_groups = {}
@@ -202,6 +201,9 @@ def get_user_groups(users):
 
     # group users by keyword, requires previous sorting with same key
     users = sorted(users, key=lambda x: x['group'])
+
+    # priting sorted users by groups
+    print(json.dumps(users))
     for k, g in itertools.groupby(users, key=lambda x: x['group']):
 
         user_groups[k] = list(g)
@@ -210,17 +212,6 @@ def get_user_groups(users):
         user_groups[k] = sorted(user_groups[k],
                                 key=lambda x: x['username'])
 
-    print(json.dumps(user_groups))
-    user_groups = sorted(user_groups.keys())
-    print(json.dumps(user_groups))
-    '''
-
-    order user_groups by keyword
-    #print("user_groups after custom sorting: ")
-    #user_groups = sorted(user_groups, key=lambda x: list(x)[0])
-    print(json.dumps(user_groups))
-
-    '''
     return user_groups
 
 
@@ -241,7 +232,7 @@ def get_users(text):
     for user_line in users_with_diff:
         description = re.sub("\\{\\{.*\\}", "", user_line)  # only description
         user_line = user_line.replace(description, "")  # all but description
-        diff = re.search("\\b/|\\d+", user_line).group()  # diff number
+        diff = re.search("\\b/|\\d+", user_line).group(0)  # diff number
         username = re.sub("\\{\\{.*\\|", "",
                           user_line).replace("}", "")  # username
         group = get_group(username)
