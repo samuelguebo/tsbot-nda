@@ -27,8 +27,8 @@ def index(title=None):
     month -- the default title of the homepage
     """
 
-    title = "Flax"
-    description = "A minimalist application layout in Python/Flask."
+    title = "Noticeboard update"
+    description = "Maintenance tool for the NDA Noticeboard"
     content = None
     user_groups = diffs = []
     summary = remote_wiki_text = ""
