@@ -251,7 +251,7 @@ def get_users(text):
     for user_line in users_without_diff:
         username = re.search("User\\:.*?\\]", user_line)
         if username is not None:
-            username = username[0].replace("]", "").replace("User:", "")
+            username = username.group(0).replace("]", "").replace("User:", "")
 
         group = get_group(username)
         row = {
