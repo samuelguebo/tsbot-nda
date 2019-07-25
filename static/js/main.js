@@ -194,8 +194,11 @@ jQuery( document ).ready( function( $ ) {
              var limit = 50;
              // Get the base url
              var baseUrl = new Utils().getBaseUrl();
-             var query = "uclimit=" + limit +
-             "&format=json&list=usercontribs&ucuser=" + this.username;
+             var query = "uclimit=" + limit
+             // Add support for tags
+             query += "&ucprop=tags|flags|title|comment&list=usercontribs"
+             query += "&ucuser=" + this.username";
+             query += "&format=json&list=usercontribs&ucuser=" + this.username;
              var url = baseUrl + "query/" + query + "/" + this.wiki
 
              return fetch(url)
@@ -211,17 +214,8 @@ jQuery( document ).ready( function( $ ) {
           * @link: https://www.mediawiki.org/wiki/API:Usercontribs
           */
          isEditReverted(edit) {
-
-           // Check wether revision's summary contains
-               return
-                   this.getNextRevision(edit)
-                   .then(function(revision){
-                     console.log(revision)
-                     if(revision.tocomment.includes(edit.user)){
-                       return true;
-                     }
-                     return false;
-                   })
+           // Check wether revision has item "suppressed"
+           return "undefined" !== edit.suppressed;
          }
 
          /**
