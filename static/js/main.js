@@ -90,29 +90,17 @@ jQuery( document ).ready( function( $ ) {
               .then(function(contribs){
                   var promises = []
                   var filteredEdits = []
-                  for (var i = 0; i < contribs.length; i++){
-                      var edit = contribs[i]
-                      filterPromise = new Promise(function(resolve, reject){
-                        mediawiki.isEditReverted(edit)
-                        .then(function(response){
-                          if (response){
-                            filteredEdits.push(edit)
-                          }
-                        })
-                      })
-                      promises.push(filterPromise)
-                  }
+                  contribs.forEach(function(edit){
+                      if(mediawiki.isEditReverted(edit)){
+                        filteredEdits.push(edit)
+                      }
+                    })
 
-                return Promise.all(promises)
-                 .then(function(){
-                   return filteredEdits;
-                 })
-                .then(function(filteredEdits) {
+                  return filteredEdits;
+              }).then(function(filteredEdits) {
                   fillHTMLTable(wiki, filteredEdits)
-                })
-            })
-
-    }
+              })
+        }
   }
 
     /**
@@ -191,13 +179,14 @@ jQuery( document ).ready( function( $ ) {
           * @link: https://www.mediawiki.org/wiki/API:Usercontribs
           */
          getWikiContribs() {
-             var limit = 50;
+             var limit = 500;
              // Get the base url
              var baseUrl = new Utils().getBaseUrl();
              var query = "uclimit=" + limit
              // Add support for tags
-             query += "&ucprop=tags|flags|title|comment&list=usercontribs"
-             query += "&ucuser=" + this.username";
+             var ucprops = ["ids", "timestamp", "tags", "flags", "title", "comment"]
+             query += "&ucprop=" + ucprops.join("|") + "&list=usercontribs";
+             query += "&ucuser=" + this.username;
              query += "&format=json&list=usercontribs&ucuser=" + this.username;
              var url = baseUrl + "query/" + query + "/" + this.wiki
 
@@ -215,7 +204,9 @@ jQuery( document ).ready( function( $ ) {
           */
          isEditReverted(edit) {
            // Check wether revision has item "suppressed"
-           return "undefined" !== edit.suppressed;
+
+           return ( "undefined" !== typeof(edit.suppressed) )
+           console.log(typeof(edit.suppressed))
          }
 
          /**

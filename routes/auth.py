@@ -33,7 +33,7 @@ def login():
             app.config['OAUTH_MWURI'], consumer_token)
     except Exception:
         app.logger.exception('mwoauth.initiate failed')
-        return flask.redirect(flask.url_for('index'))
+        return flask.redirect(flask.url_for('nda.index'))
     else:
         flask.session['request_token'] = dict(zip(
             request_token._fields, request_token))
