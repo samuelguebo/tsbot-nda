@@ -1,0 +1,1 @@
+nodemon -e js,css,html,py -x "flask run --reload --port=5000"

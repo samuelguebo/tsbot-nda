@@ -53,3 +53,7 @@ a.button {
 footer.container.footer{
   padding-bottom: 30px;
 }
+
+form #operations {
+  margin-top: 30px;
+}

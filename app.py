@@ -21,6 +21,7 @@ from routes.auth import auth
 from routes.home import home
 from routes.contribs import contribs
 from routes.nda import nda
+from routes.history import history
 
 from utils import app
 
@@ -28,6 +29,7 @@ app.register_blueprint(auth)
 app.register_blueprint(home)
 app.register_blueprint(contribs)
 app.register_blueprint(nda)
+app.register_blueprint(history)
 
 
 @app.context_processor

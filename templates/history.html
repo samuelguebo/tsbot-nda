@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+	<section id="contribs-form-wrapper">
+		{% if not search %}
+			<section  class="col-md-8 no-pad">
+				<h1>Page history</h1>
+				<form id="history-form">
+
+					<div class="form-group">
+                        <label for="wiki">Wiki:</label>
+                        <input type="text" class="form-control"
+                            id="wiki" name="wiki"  value="fr.wikipedia.org"
+                            placeholder="fr.wikipedia.org">
+                    </div>
+                    <div class="form-group">
+                            <label for="wiki">Name space:</label>
+                            <input type="text" class="form-control"
+                                placeholder="User:African Hope">
+                        </div>
+                    <!-- date rage -->
+                    <div class="form-group row">
+                        <div class="col-md-4">
+                            <label for="month">Since:</label>
+                            <input class="form-control datepicker" name="from-date" placeholder="yyyy-mm-dd">
+                        </div>
+                        <div class="col-md-4">
+                            <label for="month">Until:</label>
+                            <input class="form-control datepicker" name="to-date" placeholder="yyyy-mm-dd">
+                        </div>
+                        <div class="col-md-4" id="operations">
+                            <button id="btn-search" type="submit" class="btn btn-secondary"><i class="fa fa-search"></i> Search</button>
+                            <button id="btn-save" class="btn btn-success"><i class="fa fa-save"></i> Save</button>
+                            <strong id="notification"></strong>
+                        </div>
+					</div>
+					
+				</form>
+			</section>
+			<hr class="my-4">
+		{% endif %}
+
+
+
+		<h2>Results
+			{% if search %}
+			<a id="btn-reset" href="{{url_for('contribs.delete', id=search.doc_id)}}" class="btn btn-small btn-danger float-right">
+				<i class="fa fa-remove"></i> Delete</a>
+			{% else %}
+			<a id="btn-reset" href="#" class="btn btn-small btn-danger float-right">
+				<i class="fa fa-remove"></i> Reset</a>
+			{% endif %}
+		</h2>
+
+		<table id="contribs-table" class="table table-striped">
+			<thead>
+				<tr>
+					<th>ID</th>
+					<th>Timestamp</th>
+					<th>Revid</th>
+					<th>User</th>
+					<th>Title</th>
+					<th>Comment</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% if search %}
+					{% for contrib in search.contribs %}
+					<tr>
+						<td>{{loop.index}}</td>
+						<td>{{contrib.timestamp}}</td>
+						<td>{{contrib.revid}}</td>
+						<td>{{contrib.user}}</td>
+						<td>{{contrib.title}}</td>
+						<td>{{contrib.comment}}</td>
+					</tr>
+					{% endfor %}
+				{% endif %}
+
+			</tbody>
+		</table>
+    </section>
+    <script>
+        // Date picker 
+        $( '.datepicker' ).datepicker( {
+            format: 'yyyy-mm-dd',
+        } )    
+    </script>
+</div>
+{% endblock %}
