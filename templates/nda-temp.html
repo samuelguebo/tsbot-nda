@@ -6,13 +6,13 @@
 		<h1 class="clearfix">{{title}}</h1>
 	</div>
 	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #eff7fc;">
-		<a class="navbar-brand" href="#">New signaures</a>
+		<a class="navbar-brand" href="#">Check signatures</a>
 		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item active">
-			  <a class="nav-link" href="{{phabricator_list}}">Phabricator</a>
+			<li class="nav-item">
+			  <a class="nav-link" href="{{phab_list}}">Phabricator</a>
 			</li>
 			<li class="nav-item">
-			  <a class="nav-link" href="{{spreadsheet_list}}">Spreadsheet</a>
+			  <a class="nav-link" href="{{spread_list}}">Spreadsheet</a>
 			</li>
 	
 		  </ul>
@@ -22,12 +22,12 @@
 		<form "{{ url_for('nda.index') }}" method="post" class="col-md-6">
 
 				<div class="form-group">
-						<textarea name="previous_content" class="form-control" rows="5" cols="80" style="display:none">{{remote_wiki_text}}</textarea>
+						<textarea name="previous_content" class="form-control" rows="5" cols="80" style="display:none" >{{remote_wiki_text}}</textarea>
 				</div>
 
 				<div class="form-group">
 						<label for="new_users">New users</label>
-						<textarea name="new_users" class="form-control" rows="5" cols="80"></textarea>
+						<textarea name="new_users" class="form-control" rows="5" cols="80" placeholder="One user perline"></textarea>
 				</div>
 
 				<!-- Diffs -->
