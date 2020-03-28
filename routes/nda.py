@@ -30,25 +30,28 @@ def index(title=None):
 
     title = "Noticeboard update"
     description = "Maintenance tool for the NDA Noticeboard"
-    content = ""
+    content = old_content = ""
     user_groups = diffs = []
     summary = remote_wiki_text = ""
-    namespace = 'Access to nonpublic personal data policy/Noticeboard'
+    noticeboard_url = app.config["NOTICEBOARD_URL"]
     phabricator_list = app.config["PHABRICATOR_LIST"]
     spreadsheet_list = app.config["SPREADSHEET_LIST"]
-    diff = None
+    namespace = app.config["NAMESPACE"]
+    diff = new_users = ""
     diffs = get_diff('https://meta.wikimedia.org/w/api.php', namespace)
     page_id = list(diffs['query']['pages'])[0]
     diffs = diffs['query']['pages'][page_id]['revisions']
+    step = 0
 
 
     if request.method == 'POST':
-        try:
+        if "previous_content" in request.form:
             old_content = request.form['previous_content']
+        if "new_users" in request.form:
             new_users = request.form['new_users']
+        if "diff" in request.form:
             diff = request.form['diff']
-        except:
-            pass
+
             
         # format news users
         if new_users != "":
@@ -58,40 +61,41 @@ def index(title=None):
                 summary = "+" + new_users
             new_users = text_to_users(new_users)
 
-        if len(new_users) > 0 and diff is not None and diff!= "":
 
-            if old_content != "":
+        if old_content != "":
+            # append new_users to old_users
+            old_users = get_users(old_content)
+            # update new_users with diff
+            if diff!= "":
+                summary = []
+                for user in old_users:
+                    if user['status'] == 'new':
+                        user['status'] = 'old'
+                        user['diff'] = diff
 
-                # append new_users to old_users
-                old_users = get_users(old_content)
-                # update new_users with diff
-                if diff != "":
-                    summary = []
-                    for user in old_users:
-                        if user['status'] == 'new':
-                            user['status'] = 'old'
-                            user['diff'] = diff
+                        summary.append(user["username"])
 
-                            summary.append(user["username"])
+                summary = "+diff for " + ", ".join(summary)
+            if len(new_users) > 0:
+                user_groups = get_user_groups(old_users + new_users)
+            else:
+                user_groups = get_user_groups(old_users)
 
-                    summary = "+diff for " + ", ".join(summary)
-                    print(summary)
-                if len(new_users) > 0:
-                    user_groups = get_user_groups(old_users + new_users)
-                else:
-                    user_groups = get_user_groups(old_users)
-
-                header_template = re.search('\\{\\{\\:.*?\\}\\}',
-                                            old_content).group(0)
-                content = get_wikicode(header_template, user_groups)
+            header_template = re.search('\\{\\{\\:.*?\\}\\}',
+                                        old_content).group(0)
+            content = get_wikicode(header_template, user_groups)
+            step = 2
+                
                 
         return render_template(
             'nda-diff.html', title=title, content=content,
             description=description, remote_wiki_text=remote_wiki_text,
             phab_list=phabricator_list, spread_list=spreadsheet_list,
-            summary=summary, diffs=diffs, namespace=namespace
+            summary=summary, diffs=diffs, noticeboard_url=noticeboard_url,
+            step=step, new_users=new_users
         )
     else:
+        
         remote_wiki_text = get_content_from_wiki('https://meta.wikimedia.org',
                                                  namespace)
 
@@ -99,7 +103,7 @@ def index(title=None):
         'nda-temp.html', title=title, content=content,
         description=description, remote_wiki_text=remote_wiki_text,
         phab_list=phabricator_list, spread_list=spreadsheet_list,
-        summary=summary, diffs=diffs, namespace=namespace
+        summary=summary, diffs=diffs, noticeboard_url=noticeboard_url
     )
 
 

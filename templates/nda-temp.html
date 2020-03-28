@@ -3,20 +3,10 @@
 
 <div class="container">
 	<div class="form-group">
-		<h1 class="clearfix">{{title}}</h1>
+		<h1 class="clearfix">{{title}}</h1> 
+		<a class="btn btn-success btn-sm" href="{{phab_list}}">Phabricator</a>
+		<a class="btn btn-success btn-sm" href="{{spread_list}}">Spreadsheet</a>
 	</div>
-	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #eff7fc;">
-		<a class="navbar-brand" href="#">Check signatures</a>
-		  <ul class="navbar-nav mr-auto">
-			<li class="nav-item">
-			  <a class="nav-link" href="{{phab_list}}">Phabricator</a>
-			</li>
-			<li class="nav-item">
-			  <a class="nav-link" href="{{spread_list}}">Spreadsheet</a>
-			</li>
-	
-		  </ul>
-	</nav>
 	<div class="row">
 
 		<form "{{ url_for('nda.index') }}" method="post" class="col-md-6">
@@ -43,7 +33,7 @@
 			{% endif %}
 			<br>
 			<button type="submit" class="btn btn-primary mb-2">Generate</button>
-			<a class="btn btn-danger mb-2" href="https://meta.wikimedia.org/wiki/{{namespace}}?&action=edit"><i class="fa fa-edit"></i> Edit page</a>
+			<a class="btn btn-danger mb-2" href="{{noticeboard_url}}"><i class="fa fa-edit"></i> Edit page</a>
 			
 		</form>
 
