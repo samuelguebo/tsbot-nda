@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container">
+	<div class="form-group">
+		<h1 class="clearfix">{{title}}</h1>
+	</div>
+	<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #eff7fc;">
+		<a class="navbar-brand" href="#">New signaures</a>
+		  <ul class="navbar-nav mr-auto">
+			<li class="nav-item active">
+			  <a class="nav-link" href="{{phabricator_list}}">Phabricator</a>
+			</li>
+			<li class="nav-item">
+			  <a class="nav-link" href="{{spreadsheet_list}}">Spreadsheet</a>
+			</li>
+	
+		  </ul>
+	</nav>
+	<div class="row">
+
+		<form "{{ url_for('nda.index') }}" method="post" class="col-md-6">
+
+				<div class="form-group">
+						<textarea name="previous_content" class="form-control" rows="5" cols="80" style="display:none">{{remote_wiki_text}}</textarea>
+				</div>
+
+				<div class="form-group">
+						<label for="new_users">New users</label>
+						<textarea name="new_users" class="form-control" rows="5" cols="80"></textarea>
+				</div>
+
+				<!-- Diffs -->
+			{% if diffs %}
+			<div class="list-group">
+			  <a href="#" class="list-group-item active">Latest diff</a>
+				{% for diff in diffs %}
+					<p class="list-group-item">
+						<a href="https://meta.wikimedia.org/wiki/Special:Diff/{{diff.revid}}">{{diff.revid}}</a> by {{diff.user}} // {{diff.comment}}
+					</p>
+				{% endfor %}
+			</div>
+			{% endif %}
+			<br>
+			<button type="submit" class="btn btn-primary mb-2">Generate</button>
+			<a class="btn btn-danger mb-2" href="https://meta.wikimedia.org/wiki/{{namespace}}?&action=edit"><i class="fa fa-edit"></i> Edit page</a>
+			
+		</form>
+
+
+
+	</div>
+</div>
+{% endblock %}

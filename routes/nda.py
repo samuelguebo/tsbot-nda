@@ -14,6 +14,7 @@ import mw_api_client as mw
 import re
 import requests
 from flask import Blueprint
+from utils import app
 
 nda = Blueprint('nda', __name__)
 
@@ -29,33 +30,40 @@ def index(title=None):
 
     title = "Noticeboard update"
     description = "Maintenance tool for the NDA Noticeboard"
-    content = None
+    content = ""
     user_groups = diffs = []
     summary = remote_wiki_text = ""
     namespace = 'Access to nonpublic personal data policy/Noticeboard'
+    phabricator_list = app.config["PHABRICATOR_LIST"]
+    spreadsheet_list = app.config["SPREADSHEET_LIST"]
+    diff = None
+    diffs = get_diff('https://meta.wikimedia.org/w/api.php', namespace)
+    page_id = list(diffs['query']['pages'])[0]
+    diffs = diffs['query']['pages'][page_id]['revisions']
+
 
     if request.method == 'POST':
-
-        old_content = request.form['previous_content']
-        new_users = request.form['new_users']
-        diff = request.form['diff']
-
+        try:
+            old_content = request.form['previous_content']
+            new_users = request.form['new_users']
+            diff = request.form['diff']
+        except:
+            pass
+            
         # format news users
         if new_users != "":
             if len(new_users.split("\r\n")) > 1:
                 summary = "+" + ", ".join(unique_list(new_users.split("\r\n")))
             else:
                 summary = "+" + new_users
-
             new_users = text_to_users(new_users)
 
-        if len(new_users) > 0 or diff != "":
+        if len(new_users) > 0 and diff is not None and diff!= "":
 
             if old_content != "":
 
                 # append new_users to old_users
                 old_users = get_users(old_content)
-
                 # update new_users with diff
                 if diff != "":
                     summary = []
@@ -67,7 +75,7 @@ def index(title=None):
                             summary.append(user["username"])
 
                     summary = "+diff for " + ", ".join(summary)
-
+                    print(summary)
                 if len(new_users) > 0:
                     user_groups = get_user_groups(old_users + new_users)
                 else:
@@ -76,18 +84,21 @@ def index(title=None):
                 header_template = re.search('\\{\\{\\:.*?\\}\\}',
                                             old_content).group(0)
                 content = get_wikicode(header_template, user_groups)
-                content += "\n"
-                content += summary
+                
+        return render_template(
+            'nda-diff.html', title=title, content=content,
+            description=description, remote_wiki_text=remote_wiki_text,
+            phab_list=phabricator_list, spread_list=spreadsheet_list,
+            summary=summary, diffs=diffs, namespace=namespace
+        )
     else:
         remote_wiki_text = get_content_from_wiki('https://meta.wikimedia.org',
                                                  namespace)
-        diffs = get_diff('https://meta.wikimedia.org/w/api.php', namespace)
-        page_id = list(diffs['query']['pages'])[0]
-        diffs = diffs['query']['pages'][page_id]['revisions']
 
     return render_template(
-        'nda.html', title=title, content=content,
+        'nda-temp.html', title=title, content=content,
         description=description, remote_wiki_text=remote_wiki_text,
+        phab_list=phabricator_list, spread_list=spreadsheet_list,
         summary=summary, diffs=diffs, namespace=namespace
     )
 
