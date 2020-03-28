@@ -69,7 +69,7 @@ jQuery( document ).ready( function( $ ) {
             mediawiki
             .getWikiContribs()
                 .then(function(contribs){
-                  fillHTMLTable(wiki, contribs)
+                    fillHTMLTable(wiki, contribs)
                 })
         }
 
@@ -90,6 +90,7 @@ jQuery( document ).ready( function( $ ) {
               .then(function(contribs){
                   var promises = []
                   var filteredEdits = []
+                  console.log(contribs)
                   contribs.forEach(function(edit){
                       if(mediawiki.isEditReverted(edit)){
                         filteredEdits.push(edit)
