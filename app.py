@@ -9,7 +9,7 @@
 # as built in 2017 by Bryan Davis and other contributors
 #
 # This project is based on the Toolforge Flask + OAuth WSGI tutorial
-# It was tailored to fit the news of the Trust & Safety team
+# It was tailored to fit the needs of the Trust & Safety team
 #
 # Contributors: Samuel Guebo
 # Licence: MIT

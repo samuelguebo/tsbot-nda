@@ -15,4 +15,5 @@ def index():
     Unauthorized users will be redirected to login page.
     """
 
+    # TODO: https://www.mediawiki.org/wiki/API:Revisions#API_documentation
     return flask.render_template('history.html')
