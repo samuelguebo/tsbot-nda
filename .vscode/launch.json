@@ -16,7 +16,7 @@
             },
             "args": [
                 "run",
-                "--no-reload",
+                "--reload",
                 "--port=5000"
             ],
             "jinja": true

@@ -67,6 +67,7 @@ def index(title=None):
             old_users = get_users(old_content)
             # update new_users with diff
             if diff!= "":
+                diff = diffs[0]['revid'] # update diff
                 summary = []
                 for user in old_users:
                     if user['status'] == 'new':
@@ -76,6 +77,7 @@ def index(title=None):
                         summary.append(user["username"])
 
                 summary = "+diff for " + ", ".join(summary)
+               
             if len(new_users) > 0:
                 user_groups = get_user_groups(old_users + new_users)
             else:
@@ -347,7 +349,7 @@ def get_wikicode_item(header, users):
         if(user['status'] == 'new'):
             wikicode += "* [[User:" + user['username'] + "]]"
         else:
-            wikicode += "{{/user|" + user['diff'] + "|"
+            wikicode += "{{/user|" + str(user['diff']) + "|"
             wikicode += user['username'] + "}}"
         if user['description']:
             wikicode += user['description']
