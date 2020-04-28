@@ -3,7 +3,7 @@ A technical utility built by the Wikimedia Foundation Trust & Safety team. This 
 
 ## Sync folder
 Run the following command to make sure `nodemon` pushes every changes
-`FLASK_ENV=development nodemon -e js,css,html,py -x "flask run --reload --port=5000"`
+`FLASK_ENV=development && nodemon -e js,css,html,py -x "flask run --reload --port=5000"`
 
 ## Documentation
 * https://github.com/remy/nodemon

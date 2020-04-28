@@ -99,6 +99,7 @@ def before_request():
 
     allowed_routes = ["home.index", "auth.login",
                       "auth.oauth_callback", "auth.logout"
+                      "auth.oauth_callback", "static"
                       ]
     if has_credentials() is False and request.endpoint not in allowed_routes:
         return flask.redirect(flask.url_for('home.index'))
