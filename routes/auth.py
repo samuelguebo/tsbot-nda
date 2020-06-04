@@ -96,11 +96,11 @@ def checkUserGroup(username):
 @app.before_request
 def before_request():
     """Protecting non-public routes"""
-
     allowed_routes = ["home.index", "auth.login",
                       "auth.oauth_callback", "auth.logout"
-                      "auth.oauth_callback", "static", "public"
+                      "auth.oauth_callback", "static", "home.public"
                       ]
+    print(request.endpoint)
     if has_credentials() is False and request.endpoint not in allowed_routes:
         return flask.redirect(flask.url_for('home.index'))
     else:
