@@ -16,9 +16,10 @@ def index():
 
 @home.route('/public/<path:path>')
 def public(path):
-    # redirect / with index.html
+    # redirect / to index.html
     if not re.match(r"^.*\.[^\\]+$", path):
         path += '/index.html'
+        return flask.redirect((path))
 
     public_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../public")
     full_path = public_dir + "/" + path
