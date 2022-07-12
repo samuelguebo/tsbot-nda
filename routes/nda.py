@@ -123,7 +123,7 @@ def get_group(username):
                 "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X",
                 "Y", "Z"]
 
-    regexcharacters = '[\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\,\\.\\?\\"\\:\\{\\}\\|'
+    regexcharacters = '[\\!\\@\\#\\$\\%\\^\\&\\*\\(\\)\\,\\.\\?\\"\\:\\{\\}\\|\\~'
     regexcharacters += '\\<\\>\\-]'
 
     chars = list(username)
